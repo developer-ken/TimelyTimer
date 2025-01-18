@@ -44,7 +44,7 @@ void JDI_MIP_Display::begin()
 
 void JDI_MIP_Display::refresh()
 {
-    for (int i = 0; i < height(); i++)
+    for (int i = 0; i < HEIGHT; i++)
     {
         int lineIdx = HALF_WIDTH * i;
         char *line_cmd;
@@ -83,7 +83,7 @@ void JDI_MIP_Display::clearScreen()
 
 void JDI_MIP_Display::sendLineCommand(char *line_cmd, int line)
 {
-    if ((line < 0) || (line >= height()))
+    if ((line < 0) || (line >= HEIGHT))
     {
         return;
     }
@@ -104,10 +104,31 @@ void JDI_MIP_Display::sendLineCommand(char *line_cmd, int line)
 
 void JDI_MIP_Display::drawPixel(int16_t x, int16_t y, uint16_t color)
 {
-    int16_t t;
-    t = x;
-    x = y;
-    y = HEIGHT - 1 - t;
+    switch (rotation)
+    {
+    case 0:
+        break;
+    case 2:
+    {
+        x = WIDTH - x - 1;
+        y = HEIGHT - y - 1;
+    }
+    break;
+    case 1:
+    {
+        uint16_t t = x;
+        x = y;
+        y = HEIGHT - t - 1;
+    }
+    break;
+    case 3:
+    {
+        uint16_t t = x;
+        x = y;
+        y = WIDTH - t - 1;
+    }
+    break;
+    }
 
     if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
     {
@@ -115,7 +136,7 @@ void JDI_MIP_Display::drawPixel(int16_t x, int16_t y, uint16_t color)
     }
 
     int pixelIdx = ((WIDTH / 2) * y) + (x / 2);
-    // 一char8位,前4位后4位存两个像素点,判断x奇偶,确定x是前4位还是后4位
+
     if (x % 2 == 0)
     {
         _backBuffer[pixelIdx] &= 0x0F;

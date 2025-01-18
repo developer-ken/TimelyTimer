@@ -29,9 +29,9 @@
 
 //===============================
 // Wiring example Teensy 4.1
-#define PIN_SCS         25          // SPI Chip Select Signal pin
-#define PIN_DISP        33          // Display ON/OFF Switching Signal pin
-#define PIN_FRONTLIGHT  2          // Frontlight pin. Optional depending on the display model
+#define PIN_SCS         1          // SPI Chip Select Signal pin
+#define PIN_DISP        0          // Display ON/OFF Switching Signal pin
+#define PIN_FRONTLIGHT  -1          // Frontlight pin. Optional depending on the display model
 
 //===============================
 // Wiring example Esp8266 Wemos D1 mini
